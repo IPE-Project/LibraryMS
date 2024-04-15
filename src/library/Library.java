@@ -4,6 +4,12 @@
  */
 package library;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Korb Daven
@@ -18,6 +24,93 @@ public class Library extends javax.swing.JFrame {
         startApp.setVisible(true);
         userLayout.setVisible(false);
         adminLayout.setVisible(false);
+    }
+    
+    final static String MEMBER_FILE_PATH="MemberDB.csv";
+    
+    //class for member and librarian
+    class Member{
+
+        String fullName;
+        String email;
+        private String pw;
+        private String phNum;
+        private String address;
+
+            public String getPw() {
+                    return pw;
+            }
+            public void setPw(String pw) {
+                    this.pw = pw;
+            }
+            public String getPhNum() {
+                    return phNum;
+            }
+            public void setPhNum(String phNum) {
+                    this.phNum = phNum;
+            }
+            public String getAddress() {
+                    return address;
+            }
+            public void setAddress(String address) {
+                    this.address = address;
+            }
+
+            ArrayList<String> borrowBook = new ArrayList<>();
+            String bDate; //borrow date
+            ArrayList<String> returnedBook = new ArrayList<>();
+            String reDate; //returned date
+            ArrayList<String> booksHistory = new ArrayList<>();
+
+        public static final int bMaxDuration=20; //max num of days books can be borrow
+
+        public Member(String fullName, String email, String pw, String phNum, String address) {
+            this.fullName = fullName;
+            this.email = email;
+            this.pw = pw;
+            this.phNum = phNum;
+            this.address = address;
+        }
+    }
+
+    class Librarian{
+        String fullName;
+        String email;
+        private String pw;
+        private String phNum;
+        private String address;
+        public String getPw() {
+                    return pw;
+            }
+            public void setPw(String pw) {
+                    this.pw = pw;
+            }
+            public String getPhNum() {
+                    return phNum;
+            }
+            public void setPhNum(String phNum) {
+                    this.phNum = phNum;
+            }
+            public String getAddress() {
+                    return address;
+            }
+            public void setAddress(String address) {
+                    this.address = address;
+            }
+
+    }
+    
+    //addMemberfunction
+    private static void addMemberToFile(Member member) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(MEMBER_FILE_PATH, true))) {
+            writer.write(member.fullName + "," + member.email + "," + member.getPw() + "," +
+                    member.getPhNum() + "," + member.getAddress());
+            writer.newLine(); // Add a new line for the next entry
+            writer.close();
+            JOptionPane.showMessageDialog(null, "Data successfully added to the CSV file.");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error adding data to the CSV file.");
+        }
     }
 
     /**
@@ -1544,6 +1637,16 @@ public class Library extends javax.swing.JFrame {
         userReturn.setVisible(false);
         userHistory.setVisible(false);
         userProfile.setVisible(false);
+        
+        String fullName=username.getText();
+        String email=userEmail.getText();
+        String password=userPassword.getText();
+        String phoneNumber=userPhone.getText();
+        String address=userAddress.getText();
+        
+        Member newMember = new Member(fullName, email, password, phoneNumber, address);
+        addMemberToFile(newMember);
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void usernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameFocusGained
