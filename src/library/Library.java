@@ -1628,15 +1628,9 @@ public class Library extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        startApp.setVisible(false);
-        userLayout.setVisible(true);
+        
         //User
-        userHome.setVisible(true);
-        userCategory.setVisible(false);
-        userBorrow.setVisible(false);
-        userReturn.setVisible(false);
-        userHistory.setVisible(false);
-        userProfile.setVisible(false);
+        
         
         String fullName=username.getText();
         String email=userEmail.getText();
@@ -1644,8 +1638,30 @@ public class Library extends javax.swing.JFrame {
         String phoneNumber=userPhone.getText();
         String address=userAddress.getText();
         
-        Member newMember = new Member(fullName, email, password, phoneNumber, address);
-        addMemberToFile(newMember);
+        if(fullName.isEmpty()||email.isEmpty()||password.isEmpty()||phoneNumber.isEmpty()||address.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Please complete all the informations");
+        }else{
+            if(jCheckBox1.isSelected()){
+                Member newMember = new Member(fullName, email, password, phoneNumber, address);
+                addMemberToFile(newMember);
+            
+                startApp.setVisible(false);
+                userLayout.setVisible(true);
+                //user
+                userHome.setVisible(true);
+                userCategory.setVisible(false);
+                userBorrow.setVisible(false);
+                userReturn.setVisible(false);
+                userHistory.setVisible(false);
+                userProfile.setVisible(false);
+                
+                JOptionPane.showMessageDialog(null, "Welcome our new member!!");
+            }else{
+                JOptionPane.showMessageDialog(null, "Please check the aggreement to terms and conditions");
+            }
+            
+        }
+        
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
