@@ -2000,15 +2000,75 @@ public class Library extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        startApp.setVisible(false);
-        userLayout.setVisible(true);
-        //User
-        userHome.setVisible(true);
-        userCategory.setVisible(false);
-        userBorrow.setVisible(false);
-        userReturn.setVisible(false);
-        userHistory.setVisible(false);
-        userProfile.setVisible(false);
+//        startApp.setVisible(false);
+//        userLayout.setVisible(true);
+//        //User
+//        userHome.setVisible(true);
+//        userCategory.setVisible(false);
+//        userBorrow.setVisible(false);
+//        userReturn.setVisible(false);
+//        userHistory.setVisible(false);
+//        userProfile.setVisible(false);
+        
+        
+        String email=memberEmail.getText();
+	String pw=memberPassword.getText();
+        boolean found=false;
+        boolean hasText=false;
+        
+        if(memberEmail.getText().equals("")){
+            hasText=true;
+            JOptionPane.showMessageDialog(null, "Pleas fill out email! ");
+        }else if(memberPassword.getText().equals("")){
+            hasText=true;
+            JOptionPane.showMessageDialog(null, "Please fill out password! ");
+        }
+        
+        try(BufferedReader br=new BufferedReader(new FileReader(MEMBER_FILE_PATH))){
+            String line;
+            				
+            //compare user and password for every lines
+            while((line=br.readLine()) != null) {
+		String[] ele1=line.split(",");
+                if(email.equals(ele1[2]) && pw.equals(ele1[3])){
+                    found=true;
+                    hasText=true;
+                    
+                    startApp.setVisible(false);
+                    userLayout.setVisible(true);
+                    //User
+                    userHome.setVisible(true);
+                    userCategory.setVisible(false);
+                    userBorrow.setVisible(false);
+                    userReturn.setVisible(false);
+                    userHistory.setVisible(false);
+                    userProfile.setVisible(false);
+//                    panelOpen.setVisible(false);
+//                    panelAdmin.setVisible(true);
+//                    
+//                    adminNameLabel.setText(ele1[0]);
+//                    adminEmailLabel.setText(ele1[1]);
+//                    adminNumLabel.setText(ele1[2]);
+//                    adminAgeLabel.setText(ele1[3]);
+//                    adminGenLabel.setText(ele1[4]);
+//                    adminIdLabel.setText(ele1[5]);
+//                    adminPwLabel.setText(ele1[6]);
+//                    adminAddressLabel.setText(ele1[7]);
+                    
+                }
+
+            }
+            br.close();
+	} catch (IOException ex) {
+            ex.printStackTrace();
+        }
+                             
+        if(!found&&!hasText) {
+            JOptionPane.showMessageDialog(null, "Wrong email or password", "Message",JOptionPane.ERROR_MESSAGE);
+        }
+        if(found){
+            JOptionPane.showMessageDialog(null,"Login successfully! ");
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jPanel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel19MouseClicked
