@@ -4,10 +4,15 @@
  */
 package library;
 
+import java.io.BufferedReader;  
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
+
 import javax.swing.JOptionPane;
 
 /**
@@ -27,49 +32,57 @@ public class Library extends javax.swing.JFrame {
     }
     
     final static String MEMBER_FILE_PATH="MemberDB.csv";
+    final static String SUM_FILE_PATH="sum.csv";
     
     //class for member and librarian
     class Member{
-
+        int mId;
         String fullName;
         String email;
         private String pw;
         private String phNum;
         private String address;
-
-            public String getPw() {
-                    return pw;
-            }
-            public void setPw(String pw) {
-                    this.pw = pw;
-            }
-            public String getPhNum() {
-                    return phNum;
-            }
-            public void setPhNum(String phNum) {
-                    this.phNum = phNum;
-            }
-            public String getAddress() {
-                    return address;
-            }
-            public void setAddress(String address) {
-                    this.address = address;
-            }
-
-            ArrayList<String> borrowBook = new ArrayList<>();
-            String bDate; //borrow date
-            ArrayList<String> returnedBook = new ArrayList<>();
-            String reDate; //returned date
-            ArrayList<String> booksHistory = new ArrayList<>();
+    
+	public String getPw() {
+		return pw;
+	}
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
+	public String getPhNum() {
+		return phNum;
+	}
+	public void setPhNum(String phNum) {
+		this.phNum = phNum;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	ArrayList<String> borrowBook = new ArrayList<>();
+	String bDate; //borrow date
+        ArrayList<String> returnedBook = new ArrayList<>();
+        String reDate; //returned date
+        ArrayList<String> booksHistory = new ArrayList<>();
 
         public static final int bMaxDuration=20; //max num of days books can be borrow
 
-        public Member(String fullName, String email, String pw, String phNum, String address) {
+        public Member(int mId,String fullName, String email, String pw, String phNum, String address,ArrayList<String> borrowBook,String bDate,ArrayList<String> returnedBook,String reDate,ArrayList<String> booksHistory) {
+            this.mId=mId;
             this.fullName = fullName;
             this.email = email;
             this.pw = pw;
             this.phNum = phNum;
             this.address = address;
+            this.borrowBook=borrowBook;
+            this.bDate=bDate;
+            this.returnedBook=returnedBook;
+            this.reDate=reDate;
+            this.booksHistory=booksHistory;
+        
         }
     }
 
@@ -103,15 +116,120 @@ public class Library extends javax.swing.JFrame {
     //addMemberfunction
     private static void addMemberToFile(Member member) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(MEMBER_FILE_PATH, true))) {
-            writer.write(member.fullName + "," + member.email + "," + member.getPw() + "," +
+            writer.write(member.mId+","+member.fullName + "," + member.email + "," + member.getPw() + "," +
                     member.getPhNum() + "," + member.getAddress());
-            writer.newLine(); // Add a new line for the next entry
+            
+            writer.newLine(); 
             writer.close();
             JOptionPane.showMessageDialog(null, "Data successfully added to the CSV file.");
         } catch (IOException e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error adding data to the CSV file.");
         }
     }
+	
+	static int findLatestmId(String filename) {
+		String line = "";
+
+		String numOfMember = null;
+		
+		try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            br.readLine();
+
+            while ((line = br.readLine()) != null) {
+                
+            	String[] data = line.split(",");
+                numOfMember= data[0];
+               
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		int latestId=Integer.parseInt(numOfMember)+10001;
+		
+		//increase number
+		String oldCount=null;
+		try (BufferedReader br = new BufferedReader(new FileReader(SUM_FILE_PATH))) {
+            br.readLine();
+
+            while ((line = br.readLine()) != null) {
+                
+            	String[] data = line.split(",");
+            	oldCount = data[0];
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+		incTotalInFile(SUM_FILE_PATH, 2, 1); //increase num of total member
+		
+		return latestId;
+		
+		
+		
+	}
+	
+	static void incTotalInFile(String fileName,int row,int col) {
+		String originalFile = fileName;
+	    String tempFile = "temp.csv";
+
+	    int desiredRow = row;
+	    int desiredCol = col;
+
+	    try (BufferedReader br = new BufferedReader(new FileReader(originalFile));
+	         BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile))) {
+
+	        String line;
+	        int currRow = 0;
+	        while ((line = br.readLine()) != null) {
+	            currRow++;
+	            String[] cols = line.split(",");
+	            if (currRow == desiredRow) {
+	                if (desiredCol <= cols.length) {
+	                    try {
+	                    	int value=Integer.parseInt(cols[desiredCol-1]);
+	                    	value++;
+	                    	cols[desiredCol-1]=String.valueOf(value);
+	                    	line=String.join(",",cols);
+	                    	
+	                    }catch(NumberFormatException e) {
+	                    	System.out.println("Value is not an INT");
+	                    	return;
+	                    }
+	                } else {
+	                    System.out.println("out of bounds.");
+	                }
+	            }
+	            bw.write(line);
+	            bw.newLine();
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    
+	 // Delete the existing file coz need to replace it for new file
+	    File oldFile = new File(fileName);
+	    if (oldFile.exists()) {
+	        if (oldFile.delete()) {
+	            System.out.println("Existing file deleted successfully.");
+	        } else {
+	            System.out.println("Failed to delete existing file.");
+	            return;  
+	        }
+	    }
+
+	    // Rename tempFile to fileName
+	    File tempFile1 = new File("temp.csv");
+	    File newFile = new File(fileName);
+
+	    if (tempFile1.renameTo(newFile)) {
+	        System.out.println("File successfully renamed.");
+	    } else {
+	        System.out.println("Failed to rename file.");
+	    }
+	}
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -1628,24 +1746,48 @@ public class Library extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        startApp.setVisible(false);
-        userLayout.setVisible(true);
-        //User
-        userHome.setVisible(true);
-        userCategory.setVisible(false);
-        userBorrow.setVisible(false);
-        userReturn.setVisible(false);
-        userHistory.setVisible(false);
-        userProfile.setVisible(false);
         
+        //User
         String fullName=username.getText();
         String email=userEmail.getText();
         String password=userPassword.getText();
         String phoneNumber=userPhone.getText();
         String address=userAddress.getText();
         
-        Member newMember = new Member(fullName, email, password, phoneNumber, address);
-        addMemberToFile(newMember);
+        
+        
+        if(fullName.isEmpty()||email.isEmpty()||password.isEmpty()||phoneNumber.isEmpty()||address.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Please complete all the informations");
+        }else{
+            if(jCheckBox1.isSelected()){
+                int mId=findLatestmId(SUM_FILE_PATH);
+
+                ArrayList<String> borrowBook=null;
+                String bDate="null";
+                ArrayList<String> returnedBook=null;
+                String reDate="null";
+                ArrayList<String> booksHistory=null;
+        
+                Member newMember = new Member(mId,fullName, email, password, phoneNumber, address,borrowBook,bDate,returnedBook,reDate,booksHistory);
+                addMemberToFile(newMember);
+            
+                startApp.setVisible(false);
+                userLayout.setVisible(true);
+                //user
+                userHome.setVisible(true);
+                userCategory.setVisible(false);
+                userBorrow.setVisible(false);
+                userReturn.setVisible(false);
+                userHistory.setVisible(false);
+                userProfile.setVisible(false);
+                
+                JOptionPane.showMessageDialog(null, "Welcome our new member!!");
+            }else{
+                JOptionPane.showMessageDialog(null, "Please check the aggreement to terms and conditions");
+            }
+            
+        }
+        
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
