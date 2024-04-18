@@ -179,11 +179,14 @@ public class Library extends javax.swing.JFrame {
         jLabel46 = new javax.swing.JLabel();
         jLabel67 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        userCategory = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jLabel4 = new javax.swing.JLabel();
         userProfile = new javax.swing.JPanel();
         userHistory = new javax.swing.JPanel();
         userReturn = new javax.swing.JPanel();
         userBorrow = new javax.swing.JPanel();
-        userCategory = new javax.swing.JPanel();
         userHome = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         adminLayout = new javax.swing.JPanel();
@@ -220,9 +223,7 @@ public class Library extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Library Management System");
-        setMaximumSize(new java.awt.Dimension(1100, 660));
         setMinimumSize(new java.awt.Dimension(1100, 660));
-        setPreferredSize(new java.awt.Dimension(1100, 660));
         setResizable(false);
 
         startApp.setBackground(new java.awt.Color(204, 204, 255));
@@ -259,7 +260,6 @@ public class Library extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Create Account");
-        jButton2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
         jButton2.setBorderPainted(false);
         jButton2.setFocusable(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -277,7 +277,6 @@ public class Library extends javax.swing.JFrame {
         jLabel20.setForeground(new java.awt.Color(0, 51, 153));
         jLabel20.setText("Your Fullname");
 
-        username.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 2, true));
         username.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 usernameFocusGained(evt);
@@ -296,7 +295,6 @@ public class Library extends javax.swing.JFrame {
         jLabel21.setForeground(new java.awt.Color(51, 0, 153));
         jLabel21.setText("Email Address");
 
-        userEmail.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 51, 255), 2, true));
         userEmail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 userEmailFocusGained(evt);
@@ -311,7 +309,6 @@ public class Library extends javax.swing.JFrame {
             }
         });
 
-        userPassword.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 51, 255), 2, true));
         userPassword.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 userPasswordFocusGained(evt);
@@ -330,7 +327,6 @@ public class Library extends javax.swing.JFrame {
         jLabel22.setForeground(new java.awt.Color(51, 0, 153));
         jLabel22.setText("Create Password");
 
-        userPhone.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 51, 255), 2, true));
         userPhone.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 userPhoneFocusGained(evt);
@@ -353,7 +349,6 @@ public class Library extends javax.swing.JFrame {
         jLabel24.setForeground(new java.awt.Color(51, 0, 153));
         jLabel24.setText("Address");
 
-        userAddress.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 51, 255), 2, true));
         userAddress.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 userAddressFocusGained(evt);
@@ -447,7 +442,6 @@ public class Library extends javax.swing.JFrame {
         jLabel27.setForeground(new java.awt.Color(51, 0, 153));
         jLabel27.setText("Email Address");
 
-        adminEmail.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 51, 255), 2, true));
         adminEmail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 adminEmailFocusGained(evt);
@@ -466,7 +460,6 @@ public class Library extends javax.swing.JFrame {
         sfsfsfdg.setForeground(new java.awt.Color(51, 0, 153));
         sfsfsfdg.setText("Password");
 
-        adminPassword.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 51, 255), 2, true));
         adminPassword.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 adminPasswordFocusGained(evt);
@@ -485,7 +478,6 @@ public class Library extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Login");
-        jButton3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -546,7 +538,6 @@ public class Library extends javax.swing.JFrame {
         jLabel29.setForeground(new java.awt.Color(51, 0, 153));
         jLabel29.setText("Email Address");
 
-        memberEmail.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 51, 255), 2, true));
         memberEmail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 memberEmailFocusGained(evt);
@@ -565,7 +556,6 @@ public class Library extends javax.swing.JFrame {
         jLabel30.setForeground(new java.awt.Color(51, 0, 153));
         jLabel30.setText("Password");
 
-        memberPassword.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 51, 255), 2, true));
         memberPassword.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 memberPasswordFocusGained(evt);
@@ -584,7 +574,6 @@ public class Library extends javax.swing.JFrame {
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Login");
-        jButton4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -997,6 +986,46 @@ public class Library extends javax.swing.JFrame {
 
         jPanel3.setLayout(null);
 
+        userCategory.setBackground(new java.awt.Color(245, 230, 245));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("mathematic");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(102, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Category");
+
+        javax.swing.GroupLayout userCategoryLayout = new javax.swing.GroupLayout(userCategory);
+        userCategory.setLayout(userCategoryLayout);
+        userCategoryLayout.setHorizontalGroup(
+            userCategoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userCategoryLayout.createSequentialGroup()
+                .addGroup(userCategoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(userCategoryLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1039, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(userCategoryLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        userCategoryLayout.setVerticalGroup(
+            userCategoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userCategoryLayout.createSequentialGroup()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(429, Short.MAX_VALUE))
+        );
+
+        jPanel3.add(userCategory);
+        userCategory.setBounds(0, 0, 830, 660);
+
         userProfile.setBackground(new java.awt.Color(234, 235, 226));
 
         javax.swing.GroupLayout userProfileLayout = new javax.swing.GroupLayout(userProfile);
@@ -1060,22 +1089,6 @@ public class Library extends javax.swing.JFrame {
 
         jPanel3.add(userBorrow);
         userBorrow.setBounds(0, 0, 830, 660);
-
-        userCategory.setBackground(new java.awt.Color(245, 230, 245));
-
-        javax.swing.GroupLayout userCategoryLayout = new javax.swing.GroupLayout(userCategory);
-        userCategory.setLayout(userCategoryLayout);
-        userCategoryLayout.setHorizontalGroup(
-            userCategoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 830, Short.MAX_VALUE)
-        );
-        userCategoryLayout.setVerticalGroup(
-            userCategoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 660, Short.MAX_VALUE)
-        );
-
-        jPanel3.add(userCategory);
-        userCategory.setBounds(0, 0, 830, 660);
 
         userHome.setBackground(new java.awt.Color(255, 239, 239));
 
@@ -2208,6 +2221,7 @@ public class Library extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
@@ -2215,6 +2229,7 @@ public class Library extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
@@ -2255,6 +2270,7 @@ public class Library extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel37;
     private javax.swing.JPanel jPanel38;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField memberEmail;
     private javax.swing.JPanel memberLogin;
