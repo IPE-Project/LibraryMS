@@ -10,10 +10,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -42,6 +48,19 @@ public class Library extends javax.swing.JFrame {
         private String pw;
         private String phNum;
         private String address;
+        
+        //Book////////
+        private String book_id;
+        private String book_title;
+        
+        public String getbook_id(){
+            return book_id;
+        }
+        public String getbook_title(){
+            return book_title;
+        }
+        
+        //////////////////////////////
     
 	public String getPw() {
 		return pw;
@@ -85,6 +104,14 @@ public class Library extends javax.swing.JFrame {
         
         }
     }
+    
+     void Search(String str){
+        DefaultTableModel model = (DefaultTableModel)tb_table.getModel();
+        TableRowSorter<DefaultTableModel> trs = new TableRowSorter<>(model);
+        tb_table.setRowSorter(trs);
+        trs.setRowFilter(RowFilter.regexFilter(str));
+    }
+    
 
     class Librarian{
         String fullName;
@@ -334,13 +361,25 @@ public class Library extends javax.swing.JFrame {
         bookAddition = new javax.swing.JPanel();
         userAddition = new javax.swing.JPanel();
         recordBorrower = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        label_name = new javax.swing.JTextField();
+        label_email = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tb_table = new javax.swing.JTable();
+        search_btn = new javax.swing.JButton();
+        delete_btn = new javax.swing.JButton();
+        search_label = new javax.swing.JTextField();
+        update_btn = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         categoryAddition = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Library Management System");
-        setMaximumSize(new java.awt.Dimension(1100, 660));
         setMinimumSize(new java.awt.Dimension(1100, 660));
-        setPreferredSize(new java.awt.Dimension(1100, 660));
         setResizable(false);
 
         startApp.setBackground(new java.awt.Color(204, 204, 255));
@@ -367,6 +406,17 @@ public class Library extends javax.swing.JFrame {
         );
 
         openLogin.setBackground(new java.awt.Color(255, 204, 153));
+
+        javax.swing.GroupLayout openLoginLayout = new javax.swing.GroupLayout(openLogin);
+        openLogin.setLayout(openLoginLayout);
+        openLoginLayout.setHorizontalGroup(
+            openLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        openLoginLayout.setVerticalGroup(
+            openLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 650, Short.MAX_VALUE)
+        );
 
         jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
         jTabbedPane1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -746,19 +796,6 @@ public class Library extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Login as Member", memberLogin);
 
-        javax.swing.GroupLayout openLoginLayout = new javax.swing.GroupLayout(openLogin);
-        openLogin.setLayout(openLoginLayout);
-        openLoginLayout.setHorizontalGroup(
-            openLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, openLoginLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        openLoginLayout.setVerticalGroup(
-            openLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
-        );
-
         javax.swing.GroupLayout startAppLayout = new javax.swing.GroupLayout(startApp);
         startApp.setLayout(startAppLayout);
         startAppLayout.setHorizontalGroup(
@@ -767,7 +804,9 @@ public class Library extends javax.swing.JFrame {
                 .addComponent(imageCover, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(middleVertical, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 606, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(openLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         startAppLayout.setVerticalGroup(
@@ -775,6 +814,7 @@ public class Library extends javax.swing.JFrame {
             .addComponent(middleVertical, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(openLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(imageCover, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
         );
 
         userLayout.setBackground(new java.awt.Color(204, 204, 255));
@@ -1469,6 +1509,15 @@ public class Library extends javax.swing.JFrame {
         jLabel85.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel85.setForeground(new java.awt.Color(255, 255, 255));
         jLabel85.setText("Record Borrowers");
+        jLabel85.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jLabel85AncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         javax.swing.GroupLayout jPanel37Layout = new javax.swing.GroupLayout(jPanel37);
         jPanel37.setLayout(jPanel37Layout);
@@ -1665,17 +1714,141 @@ public class Library extends javax.swing.JFrame {
         userAddition.setBounds(0, 0, 830, 650);
 
         recordBorrower.setBackground(new java.awt.Color(244, 233, 248));
+        recordBorrower.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout recordBorrowerLayout = new javax.swing.GroupLayout(recordBorrower);
-        recordBorrower.setLayout(recordBorrowerLayout);
-        recordBorrowerLayout.setHorizontalGroup(
-            recordBorrowerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 830, Short.MAX_VALUE)
+        jPanel5.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel3.setText("User Name");
+
+        jLabel4.setText("Email");
+
+        label_name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                label_nameActionPerformed(evt);
+            }
+        });
+
+        label_email.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                label_emailActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(label_name))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(label_email, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)))
+                .addContainerGap())
         );
-        recordBorrowerLayout.setVerticalGroup(
-            recordBorrowerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_name, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_email, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
+
+        recordBorrower.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(498, 0, -1, -1));
+
+        jPanel6.setBackground(new java.awt.Color(0, 0, 153));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("RECORDING TABLE");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(300, Short.MAX_VALUE)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(335, 335, 335))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        recordBorrower.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 138, -1, -1));
+
+        tb_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"001", "English", "2024-04-12", "2024-04-22"},
+                {"002", "Math", "2024-04-10", "2024-04-13"},
+                {"003", "Physic", "2024-04-9", "2024-04-30"},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Book ID", "Book TITLE", "Borrow Date", "Return Date"
+            }
+        ));
+        tb_table.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                tb_tableAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        jScrollPane1.setViewportView(tb_table);
+
+        recordBorrower.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 225, 818, 288));
+
+        search_btn.setText("Search");
+        search_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                search_btnActionPerformed(evt);
+            }
+        });
+        recordBorrower.add(search_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 160, 50));
+
+        delete_btn.setText("Delete");
+        delete_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delete_btnActionPerformed(evt);
+            }
+        });
+        recordBorrower.add(delete_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 550, 160, 40));
+        recordBorrower.add(search_label, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 270, 50));
+
+        update_btn.setText("Update return date");
+        update_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                update_btnActionPerformed(evt);
+            }
+        });
+        recordBorrower.add(update_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 550, 160, 40));
+
+        jButton7.setText("Check");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        recordBorrower.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 550, 160, 40));
 
         jPanel1.add(recordBorrower);
         recordBorrower.setBounds(0, 0, 830, 650);
@@ -2288,6 +2461,63 @@ public class Library extends javax.swing.JFrame {
         startApp.setVisible(true);
     }//GEN-LAST:event_jLabel2MousePressed
 
+    private void tb_tableAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tb_tableAncestorAdded
+        int row= tb_table.getRowCount();
+        DefaultTableModel model= (DefaultTableModel)tb_table.getModel();
+        //Set value for testing
+        
+    }//GEN-LAST:event_tb_tableAncestorAdded
+
+    private void search_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_btnActionPerformed
+        Search(search_label.getText());
+    }//GEN-LAST:event_search_btnActionPerformed
+
+    private void delete_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_btnActionPerformed
+        int row= tb_table.getSelectedRow();
+        DefaultTableModel model= (DefaultTableModel)tb_table.getModel();
+        model.removeRow(row);
+    }//GEN-LAST:event_delete_btnActionPerformed
+
+    private void label_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_label_nameActionPerformed
+   
+    }//GEN-LAST:event_label_nameActionPerformed
+
+    private void label_emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_label_emailActionPerformed
+        
+    }//GEN-LAST:event_label_emailActionPerformed
+
+    private void jLabel85AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel85AncestorAdded
+
+        
+    }//GEN-LAST:event_jLabel85AncestorAdded
+
+    private void update_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_btnActionPerformed
+        String nreturn_date= JOptionPane.showInputDialog("Please input return date: ");
+        int row= tb_table.getSelectedRow();
+        DefaultTableModel model= (DefaultTableModel)tb_table.getModel();
+        try {
+            for(int i=0; i<tb_table.getRowCount(); i++){
+            model.setValueAt(nreturn_date, row, 3);
+            }
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_update_btnActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        DateTimeFormatter formatter= DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate currentDate= LocalDate.now();
+        DefaultTableModel model= (DefaultTableModel)tb_table.getModel();
+        for(int i=0; i<tb_table.getRowCount(); i++){
+            LocalDate return_date = LocalDate.parse(model.getValueAt(i, 3).toString(), formatter);
+            if(return_date.isBefore(currentDate)){
+                System.out.println(model.getValueAt(i, 3));
+            }
+            
+            
+            
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2333,10 +2563,12 @@ public class Library extends javax.swing.JFrame {
     private javax.swing.JPanel bookAddition;
     private javax.swing.JPanel categoryAddition;
     private javax.swing.JPanel createAcc;
+    private javax.swing.JButton delete_btn;
     private javax.swing.JLabel imageCover;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton7;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel19;
@@ -2350,6 +2582,7 @@ public class Library extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
@@ -2357,6 +2590,7 @@ public class Library extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
@@ -2364,6 +2598,7 @@ public class Library extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel75;
@@ -2397,15 +2632,24 @@ public class Library extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel37;
     private javax.swing.JPanel jPanel38;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextField label_email;
+    private javax.swing.JTextField label_name;
     private javax.swing.JTextField memberEmail;
     private javax.swing.JPanel memberLogin;
     private javax.swing.JTextField memberPassword;
     private javax.swing.JPanel middleVertical;
     private javax.swing.JPanel openLogin;
     private javax.swing.JPanel recordBorrower;
+    private javax.swing.JButton search_btn;
+    private javax.swing.JTextField search_label;
     private javax.swing.JLabel sfsfsfdg;
     private javax.swing.JPanel startApp;
+    private javax.swing.JTable tb_table;
+    private javax.swing.JButton update_btn;
     private javax.swing.JPanel userAddition;
     private javax.swing.JTextField userAddress;
     private javax.swing.JPanel userBorrow;
