@@ -338,9 +338,7 @@ public class Library extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Library Management System");
-        setMaximumSize(new java.awt.Dimension(1100, 660));
         setMinimumSize(new java.awt.Dimension(1100, 660));
-        setPreferredSize(new java.awt.Dimension(1100, 660));
         setResizable(false);
 
         startApp.setBackground(new java.awt.Color(204, 204, 255));
