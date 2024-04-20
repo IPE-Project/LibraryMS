@@ -8,7 +8,9 @@ MID,FullName,Email,pw,phNum,address,borrowBookWithDate,returnedBook,booksHistory
 10006,new2,123,123,123,123,,,
 10007,new3,123,123,123,123,,,
 10008,new5,1231,1233,1123,1331,,,
-10009,fgdf,3234,3333,333,333
-10010,dfgdfg,3234,3333,333,sdsdfs
-10011,sdf,sdfsfd,asdfsaf,sadfasfas,asdfsdf
-10012,sdfs,sdfsfd,wedvcxs,sadfsd,fdsfsd
+10009,fgdf,3234,3333,333,333,,,
+10010,dfgdfg,3234,3333,333,sdsdfs,,,
+10011,sdf,sdfsfd,asdfsaf,sadfasfas,asdfsdf,,,
+10012,sdfs,sdfsfd,wedvcxs,sadfsd,fdsfsd,,,
+10013,Kongkea,kongkea@gmail.com,123,98724508,pp,,,
+10014,newer,newer@gmail.com,123,123,123,,,
