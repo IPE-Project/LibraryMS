@@ -33,6 +33,7 @@ public class Library extends javax.swing.JFrame {
     
     final static String MEMBER_FILE_PATH="MemberDB.csv";
     final static String SUM_FILE_PATH="sum.csv";
+    final static String LIBRARIAN_FILE_PATH="LibrarianDB.csv";
     
     //class for member and librarian
     class Member{
@@ -87,6 +88,7 @@ public class Library extends javax.swing.JFrame {
     }
 
     class Librarian{
+        int Lid;
         String fullName;
         String email;
         private String pw;
@@ -94,22 +96,32 @@ public class Library extends javax.swing.JFrame {
         private String address;
         public String getPw() {
                     return pw;
-            }
-            public void setPw(String pw) {
+        }
+        public void setPw(String pw) {
                     this.pw = pw;
-            }
-            public String getPhNum() {
+        }
+        public String getPhNum() {
                     return phNum;
-            }
-            public void setPhNum(String phNum) {
+        }
+        public void setPhNum(String phNum) {
                     this.phNum = phNum;
-            }
-            public String getAddress() {
+        }
+        public String getAddress() {
                     return address;
-            }
-            public void setAddress(String address) {
+        }
+        public void setAddress(String address) {
                     this.address = address;
-            }
+       }
+        
+        public Librarian(int Lid,String fullName, String email, String pw, String phNum, String address) {
+            this.Lid=Lid;
+            this.fullName = fullName;
+            this.email = email;
+            this.pw = pw;
+            this.phNum = phNum;
+            this.address = address;
+        
+        }
 
     }
     
@@ -118,6 +130,19 @@ public class Library extends javax.swing.JFrame {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(MEMBER_FILE_PATH, true))) {
             writer.write(member.mId+","+member.fullName + "," + member.email + "," + member.getPw() + "," +
                     member.getPhNum() + "," + member.getAddress());
+            
+            writer.newLine(); 
+            writer.close();
+            JOptionPane.showMessageDialog(null, "Data successfully added to the CSV file.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error adding data to the CSV file.");
+        }
+    }
+    private static void addLibrarianToFile(Librarian lib) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(LIBRARIAN_FILE_PATH, true))) {
+            writer.write(lib.Lid+","+lib.fullName + "," + lib.email + "," + lib.getPw() + "," +
+                    lib.getPhNum() + "," + lib.getAddress());
             
             writer.newLine(); 
             writer.close();
@@ -164,6 +189,46 @@ public class Library extends javax.swing.JFrame {
 		incTotalInFile(SUM_FILE_PATH, 2, 1); //increase num of total member
 		
 		return latestId;
+		
+		
+		
+	}
+	static int findLatestLid(String filename) {
+		String line = "";
+
+		String numOfLibrarian = null;
+		
+            try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+                br.readLine();
+
+                while ((line = br.readLine()) != null) {
+
+                    String[] data = line.split(",");
+                    numOfLibrarian= data[1];
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+                    int latestId=Integer.parseInt(numOfLibrarian)+10001;
+
+                    //increase number
+                    String oldCount=null;
+                    try (BufferedReader br = new BufferedReader(new FileReader(SUM_FILE_PATH))) {
+                        br.readLine();
+
+                        while ((line = br.readLine()) != null) {
+
+                            String[] data = line.split(",");
+                            oldCount = data[1];
+                    }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    incTotalInFile(SUM_FILE_PATH, 2, 2); //increase num of total member
+
+                    return latestId;
 		
 		
 		
@@ -338,6 +403,9 @@ public class Library extends javax.swing.JFrame {
         jPanel37 = new javax.swing.JPanel();
         jLabel84 = new javax.swing.JLabel();
         jLabel85 = new javax.swing.JLabel();
+        jPanel39 = new javax.swing.JPanel();
+        jLabel88 = new javax.swing.JLabel();
+        jLabel89 = new javax.swing.JLabel();
         jPanel38 = new javax.swing.JPanel();
         jLabel86 = new javax.swing.JLabel();
         jLabel87 = new javax.swing.JLabel();
@@ -345,10 +413,38 @@ public class Library extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         adminDashboard = new javax.swing.JPanel();
         adminProfile = new javax.swing.JPanel();
+        label3 = new java.awt.Label();
+        lidAdmin = new java.awt.Label();
+        fNameAdmin = new java.awt.Label();
+        label6 = new java.awt.Label();
+        emailAdmin = new java.awt.Label();
+        label8 = new java.awt.Label();
+        phAdmin = new java.awt.Label();
+        label10 = new java.awt.Label();
+        addressAdmin = new java.awt.Label();
+        label12 = new java.awt.Label();
+        panel2 = new java.awt.Panel();
+        label4 = new java.awt.Label();
+        userImg1 = new java.awt.Panel();
+        editUser1 = new javax.swing.JButton();
         bookAddition = new javax.swing.JPanel();
         userAddition = new javax.swing.JPanel();
         recordBorrower = new javax.swing.JPanel();
         categoryAddition = new javax.swing.JPanel();
+        adminAddition = new javax.swing.JPanel();
+        jButton5 = new javax.swing.JButton();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        adNameSi = new javax.swing.JTextField();
+        jLabel32 = new javax.swing.JLabel();
+        adEmailSi = new javax.swing.JTextField();
+        adPasswordSi = new javax.swing.JTextField();
+        jLabel33 = new javax.swing.JLabel();
+        adPhoneSi = new javax.swing.JTextField();
+        jLabel47 = new javax.swing.JLabel();
+        jLabel48 = new javax.swing.JLabel();
+        adAddressSi = new javax.swing.JTextField();
+        jCheckBox2 = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Library Management System");
@@ -1632,7 +1728,7 @@ public class Library extends javax.swing.JFrame {
                 .addComponent(jLabel84)
                 .addGap(37, 37, 37)
                 .addComponent(jLabel85, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         jPanel37Layout.setVerticalGroup(
             jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1641,6 +1737,49 @@ public class Library extends javax.swing.JFrame {
                 .addGroup(jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel85)
                     .addComponent(jLabel84))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel39.setBackground(new java.awt.Color(158, 79, 221));
+        jPanel39.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jPanel39.setToolTipText("");
+        jPanel39.setName(""); // NOI18N
+        jPanel39.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel39MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel39MouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel39MousePressed(evt);
+            }
+        });
+
+        jLabel88.setIcon(new javax.swing.ImageIcon(getClass().getResource("/library/Image/user (1).png"))); // NOI18N
+
+        jLabel89.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel89.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel89.setText("Admin Addition");
+
+        javax.swing.GroupLayout jPanel39Layout = new javax.swing.GroupLayout(jPanel39);
+        jPanel39.setLayout(jPanel39Layout);
+        jPanel39Layout.setHorizontalGroup(
+            jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel39Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel88)
+                .addGap(37, 37, 37)
+                .addComponent(jLabel89, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(70, Short.MAX_VALUE))
+        );
+        jPanel39Layout.setVerticalGroup(
+            jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel39Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel39Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel89)
+                    .addComponent(jLabel88))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1675,16 +1814,15 @@ public class Library extends javax.swing.JFrame {
                 .addComponent(jLabel86)
                 .addGap(37, 37, 37)
                 .addComponent(jLabel87, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(113, Short.MAX_VALUE))
         );
         jPanel38Layout.setVerticalGroup(
             jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel38Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel87)
-                    .addComponent(jLabel86))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel86)))
         );
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
@@ -1724,6 +1862,9 @@ public class Library extends javax.swing.JFrame {
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jPanel39, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1747,8 +1888,10 @@ public class Library extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jPanel39, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(275, Short.MAX_VALUE))
+                .addContainerGap(229, Short.MAX_VALUE))
         );
 
         jPanel1.setLayout(null);
@@ -1771,15 +1914,159 @@ public class Library extends javax.swing.JFrame {
 
         adminProfile.setBackground(new java.awt.Color(233, 226, 248));
 
+        label3.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        label3.setText("LID");
+
+        lidAdmin.setBackground(new java.awt.Color(255, 255, 255));
+        lidAdmin.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lidAdmin.setText("label3");
+
+        fNameAdmin.setBackground(new java.awt.Color(255, 255, 255));
+        fNameAdmin.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        fNameAdmin.setText("label3");
+
+        label6.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        label6.setText("Full Name");
+
+        emailAdmin.setBackground(new java.awt.Color(255, 255, 255));
+        emailAdmin.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        emailAdmin.setText("label3");
+
+        label8.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        label8.setText("Email");
+
+        phAdmin.setBackground(new java.awt.Color(255, 255, 255));
+        phAdmin.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        phAdmin.setText("label3");
+
+        label10.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        label10.setText("Phone");
+
+        addressAdmin.setBackground(new java.awt.Color(255, 255, 255));
+        addressAdmin.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        addressAdmin.setText("label3");
+
+        label12.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        label12.setText("Address");
+
+        panel2.setBackground(new java.awt.Color(158, 79, 221));
+
+        label4.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        label4.setForeground(new java.awt.Color(255, 255, 255));
+        label4.setText("User's Profile");
+
+        javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
+        panel2.setLayout(panel2Layout);
+        panel2Layout.setHorizontalGroup(
+            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panel2Layout.setVerticalGroup(
+            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(label4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
+
+        userImg1.setBackground(new java.awt.Color(204, 255, 255));
+
+        javax.swing.GroupLayout userImg1Layout = new javax.swing.GroupLayout(userImg1);
+        userImg1.setLayout(userImg1Layout);
+        userImg1Layout.setHorizontalGroup(
+            userImg1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 283, Short.MAX_VALUE)
+        );
+        userImg1Layout.setVerticalGroup(
+            userImg1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 363, Short.MAX_VALUE)
+        );
+
+        editUser1.setBackground(new java.awt.Color(158, 79, 221));
+        editUser1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        editUser1.setForeground(new java.awt.Color(255, 255, 255));
+        editUser1.setText("Edit");
+
         javax.swing.GroupLayout adminProfileLayout = new javax.swing.GroupLayout(adminProfile);
         adminProfile.setLayout(adminProfileLayout);
         adminProfileLayout.setHorizontalGroup(
             adminProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 830, Short.MAX_VALUE)
+            .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminProfileLayout.createSequentialGroup()
+                .addGroup(adminProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(adminProfileLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(editUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36))
+                    .addGroup(adminProfileLayout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(userImg1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(adminProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(adminProfileLayout.createSequentialGroup()
+                                .addGap(55, 55, 55)
+                                .addGroup(adminProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(label8, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(label10, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(22, 22, 22)
+                                .addGroup(adminProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(emailAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(phAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(adminProfileLayout.createSequentialGroup()
+                                .addGap(46, 46, 46)
+                                .addComponent(label12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(22, 22, 22)
+                                .addComponent(addressAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(adminProfileLayout.createSequentialGroup()
+                                .addGroup(adminProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(adminProfileLayout.createSequentialGroup()
+                                        .addGap(32, 32, 32)
+                                        .addComponent(label6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(adminProfileLayout.createSequentialGroup()
+                                        .addGap(65, 65, 65)
+                                        .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(20, 20, 20)
+                                .addGroup(adminProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(adminProfileLayout.createSequentialGroup()
+                                        .addComponent(lidAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(fNameAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE))))))
+                .addContainerGap())
         );
         adminProfileLayout.setVerticalGroup(
             adminProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 650, Short.MAX_VALUE)
+            .addGroup(adminProfileLayout.createSequentialGroup()
+                .addGroup(adminProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(adminProfileLayout.createSequentialGroup()
+                        .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(96, 96, 96)
+                        .addGroup(adminProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lidAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22)
+                        .addGroup(adminProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fNameAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label6, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(23, 23, 23)
+                        .addGroup(adminProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(emailAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label8, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24)
+                        .addGroup(adminProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(phAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label10, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25)
+                        .addGroup(adminProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addressAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(label12, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(42, 42, 42))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminProfileLayout.createSequentialGroup()
+                        .addComponent(userImg1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)))
+                .addComponent(editUser1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 62, Short.MAX_VALUE))
         );
 
         jPanel1.add(adminProfile);
@@ -1849,6 +2136,193 @@ public class Library extends javax.swing.JFrame {
         jPanel1.add(categoryAddition);
         categoryAddition.setBounds(0, 0, 830, 650);
 
+        adminAddition.setBackground(new java.awt.Color(230, 253, 252));
+
+        jButton5.setBackground(new java.awt.Color(0, 102, 255));
+        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("Create Account");
+        jButton5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 2, true));
+        jButton5.setBorderPainted(false);
+        jButton5.setFocusable(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jLabel28.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(0, 51, 102));
+        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel28.setText("Hi, Complete Your Information!");
+
+        jLabel31.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel31.setForeground(new java.awt.Color(0, 51, 153));
+        jLabel31.setText("Your Fullname");
+
+        adNameSi.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(102, 102, 255), 2, true));
+        adNameSi.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                adNameSiFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                adNameSiFocusLost(evt);
+            }
+        });
+        adNameSi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adNameSiActionPerformed(evt);
+            }
+        });
+
+        jLabel32.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel32.setForeground(new java.awt.Color(51, 0, 153));
+        jLabel32.setText("Email Address");
+
+        adEmailSi.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 51, 255), 2, true));
+        adEmailSi.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                adEmailSiFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                adEmailSiFocusLost(evt);
+            }
+        });
+        adEmailSi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adEmailSiActionPerformed(evt);
+            }
+        });
+
+        adPasswordSi.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 51, 255), 2, true));
+        adPasswordSi.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                adPasswordSiFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                adPasswordSiFocusLost(evt);
+            }
+        });
+        adPasswordSi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adPasswordSiActionPerformed(evt);
+            }
+        });
+
+        jLabel33.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel33.setForeground(new java.awt.Color(51, 0, 153));
+        jLabel33.setText("Create Password");
+
+        adPhoneSi.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 51, 255), 2, true));
+        adPhoneSi.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                adPhoneSiFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                adPhoneSiFocusLost(evt);
+            }
+        });
+        adPhoneSi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adPhoneSiActionPerformed(evt);
+            }
+        });
+
+        jLabel47.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel47.setForeground(new java.awt.Color(51, 0, 153));
+        jLabel47.setText("Phone Number");
+
+        jLabel48.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel48.setForeground(new java.awt.Color(51, 0, 153));
+        jLabel48.setText("Address");
+
+        adAddressSi.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 51, 255), 2, true));
+        adAddressSi.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                adAddressSiFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                adAddressSiFocusLost(evt);
+            }
+        });
+        adAddressSi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adAddressSiActionPerformed(evt);
+            }
+        });
+
+        jCheckBox2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jCheckBox2.setForeground(new java.awt.Color(0, 51, 102));
+        jCheckBox2.setText("I agree to terms & conditions");
+        jCheckBox2.setBorder(null);
+        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout adminAdditionLayout = new javax.swing.GroupLayout(adminAddition);
+        adminAddition.setLayout(adminAdditionLayout);
+        adminAdditionLayout.setHorizontalGroup(
+            adminAdditionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(adminAdditionLayout.createSequentialGroup()
+                .addGap(175, 175, 175)
+                .addGroup(adminAdditionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(adminAdditionLayout.createSequentialGroup()
+                        .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(105, 105, 105))
+                    .addGroup(adminAdditionLayout.createSequentialGroup()
+                        .addGap(94, 94, 94)
+                        .addGroup(adminAdditionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(adminAdditionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(adNameSi)
+                                .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(adEmailSi)
+                                .addComponent(adPasswordSi)
+                                .addComponent(jLabel33, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(adPhoneSi)
+                                .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel48, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(adAddressSi)
+                                .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(257, Short.MAX_VALUE))
+        );
+        adminAdditionLayout.setVerticalGroup(
+            adminAdditionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminAdditionLayout.createSequentialGroup()
+                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(adNameSi, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jLabel32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(adEmailSi, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(jLabel33)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(adPasswordSi, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
+                .addComponent(jLabel47)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(adPhoneSi, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(jLabel48)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(adAddressSi, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jCheckBox2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(90, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(adminAddition);
+        adminAddition.setBounds(0, 0, 830, 650);
+
         javax.swing.GroupLayout adminLayoutLayout = new javax.swing.GroupLayout(adminLayout);
         adminLayout.setLayout(adminLayoutLayout);
         adminLayoutLayout.setHorizontalGroup(
@@ -1856,7 +2330,7 @@ public class Library extends javax.swing.JFrame {
             .addGroup(adminLayoutLayout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 835, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 818, Short.MAX_VALUE))
         );
         adminLayoutLayout.setVerticalGroup(
             adminLayoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1939,6 +2413,46 @@ public class Library extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Please check the aggreement to terms and conditions");
             }
             
+        }
+        
+        
+        //add info to profile
+        String emailPro=userEmail.getText();
+	String pwPro=userPassword.getText();
+        
+        
+        try(BufferedReader br=new BufferedReader(new FileReader(MEMBER_FILE_PATH))){
+            String line;
+            				
+            //compare user and password for every lines
+            while((line=br.readLine()) != null) {
+		String[] ele1=line.split(",");
+                if(emailPro.equals(ele1[2]) && pwPro.equals(ele1[3])){
+                    
+                 
+                    startApp.setVisible(false);
+                    userLayout.setVisible(true);
+                    //User
+                    userHome.setVisible(true);
+                    userCategory.setVisible(false);
+                    userBorrow.setVisible(false);
+                    userReturn.setVisible(false);
+                    userHistory.setVisible(false);
+                    userProfile.setVisible(false);
+                    
+                    midUser.setText(ele1[0]);
+                    fNameUser.setText(ele1[1]);
+                    emailUser.setText(ele1[2]);
+                    phUser.setText(ele1[4]);
+                    addressUser.setText(ele1[5]);
+                   
+                    
+                }
+
+            }
+            br.close();
+	} catch (IOException ex) {
+            ex.printStackTrace();
         }
         
         
@@ -2098,15 +2612,71 @@ public class Library extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        startApp.setVisible(false);
-        adminLayout.setVisible(true);
-        //admin
-        adminDashboard.setVisible(true);
-        categoryAddition.setVisible(false);
-        bookAddition.setVisible(false);
-        userAddition.setVisible(false);
-        recordBorrower.setVisible(false);
-        adminProfile.setVisible(false);
+//        startApp.setVisible(false);
+//        adminLayout.setVisible(true);
+//        //admin
+//        adminDashboard.setVisible(true);
+//        categoryAddition.setVisible(false);
+//        bookAddition.setVisible(false);
+//        userAddition.setVisible(false);
+//        recordBorrower.setVisible(false);
+//        adminProfile.setVisible(false);
+        
+
+        String email=adminEmail.getText();
+	String pw=adminPassword.getText();
+        boolean found=false;
+        boolean hasText=false;
+        
+        if(adminEmail.getText().equals("")){
+            hasText=true;
+            JOptionPane.showMessageDialog(null, "Pleas fill out email! ");
+        }else if(adminPassword.getText().equals("")){
+            hasText=true;
+            JOptionPane.showMessageDialog(null, "Please fill out password! ");
+        }
+        
+        try(BufferedReader br=new BufferedReader(new FileReader(LIBRARIAN_FILE_PATH))){
+            String line;
+            				
+            //compare user and password for every lines
+            while((line=br.readLine()) != null) {
+		String[] ele1=line.split(",");
+                if(email.equals(ele1[2]) && pw.equals(ele1[3])){
+                    found=true;
+                    hasText=true;
+                    
+                    startApp.setVisible(false);
+                    adminLayout.setVisible(true);
+                    //admin
+                    adminDashboard.setVisible(true);
+                    categoryAddition.setVisible(false);
+                    bookAddition.setVisible(false);
+                    userAddition.setVisible(false);
+                    recordBorrower.setVisible(false);
+                    adminProfile.setVisible(false);
+                    
+                    lidAdmin.setText(ele1[0]);
+                    fNameAdmin.setText(ele1[1]);
+                    emailAdmin.setText(ele1[2]);
+                    phAdmin.setText(ele1[4]);
+                    addressAdmin.setText(ele1[5]);
+                   
+                    
+                }
+
+            }
+            br.close();
+	} catch (IOException ex) {
+            ex.printStackTrace();
+        }
+                             
+        if(!found&&!hasText) {
+            JOptionPane.showMessageDialog(null, "Wrong email or password", "Message",JOptionPane.ERROR_MESSAGE);
+        }
+        if(found){
+            JOptionPane.showMessageDialog(null,"Login successfully! ");
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void memberEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_memberEmailFocusGained
@@ -2153,17 +2723,7 @@ public class Library extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-//        startApp.setVisible(false);
-//        userLayout.setVisible(true);
-//        //User
-//        userHome.setVisible(true);
-//        userCategory.setVisible(false);
-//        userBorrow.setVisible(false);
-//        userReturn.setVisible(false);
-//        userHistory.setVisible(false);
-//        userProfile.setVisible(false);
-        
-        
+
         String email=memberEmail.getText();
 	String pw=memberPassword.getText();
         boolean found=false;
@@ -2373,6 +2933,7 @@ public class Library extends javax.swing.JFrame {
         categoryAddition.setVisible(false);
         bookAddition.setVisible(false);
         userAddition.setVisible(false);
+        adminAddition.setVisible(false);
         recordBorrower.setVisible(false);
         adminProfile.setVisible(false);
     }//GEN-LAST:event_jPanel33MousePressed
@@ -2401,6 +2962,7 @@ public class Library extends javax.swing.JFrame {
         categoryAddition.setVisible(true);
         bookAddition.setVisible(false);
         userAddition.setVisible(false);
+        adminAddition.setVisible(false);
         recordBorrower.setVisible(false);
         adminProfile.setVisible(false);
     }//GEN-LAST:event_jPanel34MousePressed
@@ -2421,6 +2983,7 @@ public class Library extends javax.swing.JFrame {
         categoryAddition.setVisible(false);
         bookAddition.setVisible(true);
         userAddition.setVisible(false);
+        adminAddition.setVisible(false);
         recordBorrower.setVisible(false);
         adminProfile.setVisible(false);
     }//GEN-LAST:event_jPanel35MousePressed
@@ -2441,6 +3004,7 @@ public class Library extends javax.swing.JFrame {
         categoryAddition.setVisible(false);
         bookAddition.setVisible(false);
         userAddition.setVisible(true);
+        adminAddition.setVisible(false);
         recordBorrower.setVisible(false);
         adminProfile.setVisible(false);
     }//GEN-LAST:event_jPanel36MousePressed
@@ -2461,6 +3025,7 @@ public class Library extends javax.swing.JFrame {
         categoryAddition.setVisible(false);
         bookAddition.setVisible(false);
         userAddition.setVisible(false);
+        adminAddition.setVisible(false);
         recordBorrower.setVisible(true);
         adminProfile.setVisible(false);
     }//GEN-LAST:event_jPanel37MousePressed
@@ -2482,6 +3047,7 @@ public class Library extends javax.swing.JFrame {
         bookAddition.setVisible(false);
         userAddition.setVisible(false);
         recordBorrower.setVisible(false);
+        adminAddition.setVisible(false);
         adminProfile.setVisible(true);
     }//GEN-LAST:event_jPanel38MousePressed
 
@@ -2489,13 +3055,129 @@ public class Library extends javax.swing.JFrame {
         // TODO add your handling code here:
         userLayout.setVisible(false);
         startApp.setVisible(true);
+        
+        userEmail.setText("");
+        userPassword.setText("");
     }//GEN-LAST:event_jLabel1MousePressed
 
     private void jLabel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MousePressed
         // TODO add your handling code here:
         adminLayout.setVisible(false);
         startApp.setVisible(true);
+        
+        adminEmail.setText("");
+        adminPassword.setText("");
     }//GEN-LAST:event_jLabel2MousePressed
+
+    private void jPanel39MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel39MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel39MouseEntered
+
+    private void jPanel39MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel39MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel39MouseExited
+
+    private void jPanel39MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel39MousePressed
+        // TODO add your handling code here:
+        adminDashboard.setVisible(false);
+        categoryAddition.setVisible(false);
+        bookAddition.setVisible(false);
+        userAddition.setVisible(false);
+        adminAddition.setVisible(true);
+        recordBorrower.setVisible(false);
+        adminProfile.setVisible(false);
+    }//GEN-LAST:event_jPanel39MousePressed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        
+        //Admin
+        String fullName=adNameSi.getText();
+        String email=adEmailSi.getText();
+        String password=adPasswordSi.getText();
+        String phoneNumber=adPhoneSi.getText();
+        String address=adAddressSi.getText();
+        
+        if(fullName.isEmpty()||email.isEmpty()||password.isEmpty()||phoneNumber.isEmpty()||address.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Please complete all the informations");
+        }else{
+            if(jCheckBox2.isSelected()){
+                int Lid=findLatestLid(SUM_FILE_PATH);
+                
+                Librarian newLibrarian = new Librarian(Lid,fullName, email, password, phoneNumber, address);
+                addLibrarianToFile(newLibrarian);
+
+                JOptionPane.showMessageDialog(null, "New Admin has been added");
+            }else{
+                JOptionPane.showMessageDialog(null, "Please check the aggreement to terms and conditions");
+            }
+            
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void adNameSiFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_adNameSiFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adNameSiFocusGained
+
+    private void adNameSiFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_adNameSiFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adNameSiFocusLost
+
+    private void adNameSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adNameSiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adNameSiActionPerformed
+
+    private void adEmailSiFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_adEmailSiFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adEmailSiFocusGained
+
+    private void adEmailSiFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_adEmailSiFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adEmailSiFocusLost
+
+    private void adEmailSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adEmailSiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adEmailSiActionPerformed
+
+    private void adPasswordSiFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_adPasswordSiFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adPasswordSiFocusGained
+
+    private void adPasswordSiFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_adPasswordSiFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adPasswordSiFocusLost
+
+    private void adPasswordSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adPasswordSiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adPasswordSiActionPerformed
+
+    private void adPhoneSiFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_adPhoneSiFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adPhoneSiFocusGained
+
+    private void adPhoneSiFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_adPhoneSiFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adPhoneSiFocusLost
+
+    private void adPhoneSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adPhoneSiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adPhoneSiActionPerformed
+
+    private void adAddressSiFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_adAddressSiFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adAddressSiFocusGained
+
+    private void adAddressSiFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_adAddressSiFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adAddressSiFocusLost
+
+    private void adAddressSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adAddressSiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_adAddressSiActionPerformed
+
+    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2534,7 +3216,14 @@ public class Library extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel LibraLogin;
+    private javax.swing.JTextField adAddressSi;
+    private javax.swing.JTextField adEmailSi;
+    private javax.swing.JTextField adNameSi;
+    private javax.swing.JTextField adPasswordSi;
+    private javax.swing.JTextField adPhoneSi;
+    private java.awt.Label addressAdmin;
     private java.awt.Label addressUser;
+    private javax.swing.JPanel adminAddition;
     private javax.swing.JPanel adminDashboard;
     private javax.swing.JTextField adminEmail;
     private javax.swing.JPanel adminLayout;
@@ -2544,13 +3233,18 @@ public class Library extends javax.swing.JFrame {
     private javax.swing.JPanel categoryAddition;
     private javax.swing.JPanel createAcc;
     private javax.swing.JButton editUser;
+    private javax.swing.JButton editUser1;
+    private java.awt.Label emailAdmin;
     private java.awt.Label emailUser;
+    private java.awt.Label fNameAdmin;
     private java.awt.Label fNameUser;
     private javax.swing.JLabel imageCover;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
@@ -2562,8 +3256,12 @@ public class Library extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
@@ -2577,6 +3275,8 @@ public class Library extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel67;
     private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel75;
@@ -2592,6 +3292,8 @@ public class Library extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel85;
     private javax.swing.JLabel jLabel86;
     private javax.swing.JLabel jLabel87;
+    private javax.swing.JLabel jLabel88;
+    private javax.swing.JLabel jLabel89;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel19;
@@ -2609,14 +3311,22 @@ public class Library extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel36;
     private javax.swing.JPanel jPanel37;
     private javax.swing.JPanel jPanel38;
+    private javax.swing.JPanel jPanel39;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private java.awt.Label label1;
+    private java.awt.Label label10;
     private java.awt.Label label11;
+    private java.awt.Label label12;
     private java.awt.Label label2;
+    private java.awt.Label label3;
+    private java.awt.Label label4;
     private java.awt.Label label5;
+    private java.awt.Label label6;
     private java.awt.Label label7;
+    private java.awt.Label label8;
     private java.awt.Label label9;
+    private java.awt.Label lidAdmin;
     private javax.swing.JTextField memberEmail;
     private javax.swing.JPanel memberLogin;
     private javax.swing.JTextField memberPassword;
@@ -2624,6 +3334,8 @@ public class Library extends javax.swing.JFrame {
     private javax.swing.JPanel middleVertical;
     private javax.swing.JPanel openLogin;
     private java.awt.Panel panel1;
+    private java.awt.Panel panel2;
+    private java.awt.Label phAdmin;
     private java.awt.Label phUser;
     private javax.swing.JPanel recordBorrower;
     private javax.swing.JLabel sfsfsfdg;
@@ -2636,6 +3348,7 @@ public class Library extends javax.swing.JFrame {
     private javax.swing.JPanel userHistory;
     private javax.swing.JPanel userHome;
     private java.awt.Panel userImg;
+    private java.awt.Panel userImg1;
     private javax.swing.JPanel userLayout;
     private javax.swing.JTextField userPassword;
     private javax.swing.JTextField userPhone;
