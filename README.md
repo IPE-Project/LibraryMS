@@ -1,2 +1,1 @@
-# LibraryMS
-This is the IPE project that we are developing Library Management System using Java GUI for desktop application.
+NOTE: DON'T CHANGE THE FORMAT OF CSV FILE IT WILL EFFECT THE INDEX OF THE FUCNTION AND ERRORS
